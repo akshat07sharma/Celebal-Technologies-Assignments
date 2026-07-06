@@ -6,6 +6,8 @@ from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 st.set_page_config(page_title="Document Q&A (RAG)", page_icon="📄")
 st.title("📄 Document Question Answering System")
 st.caption("Ask questions about a document — the assistant answers only from its content.")
@@ -53,10 +55,10 @@ document_text = None
 doc_label = None
 
 if source == "Sample: cricket.txt":
-    document_text = load_text_from_path("cricket.txt", is_pdf=False)
+    document_text = load_text_from_path(os.path.join(BASE_DIR, "cricket.txt"), is_pdf=False)
     doc_label = "cricket.txt"
 elif source == "Sample: environment.pdf":
-    document_text = load_text_from_path("environment.pdf", is_pdf=True)
+    document_text = load_text_from_path(os.path.join(BASE_DIR, "environment.pdf"), is_pdf=True)
     doc_label = "environment.pdf"
 elif uploaded_file is not None:
     suffix = ".pdf" if uploaded_file.name.lower().endswith(".pdf") else ".txt"
