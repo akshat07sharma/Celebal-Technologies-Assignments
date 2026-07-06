@@ -3,7 +3,7 @@ import tempfile
 
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -13,11 +13,11 @@ st.title("📄 Document Question Answering System")
 st.caption("Ask questions about a document — the assistant answers only from its content.")
 
 # ---------- API key ----------
-api_key = st.secrets.get("OPENAI_API_KEY", None) if hasattr(st, "secrets") else None
+api_key = st.secrets.get("GOOGLE_API_KEY", None) if hasattr(st, "secrets") else None
 if not api_key:
-    api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+    api_key = st.sidebar.text_input("Google AI Studio API Key", type="password")
 if api_key:
-    os.environ["OPENAI_API_KEY"] = api_key
+    os.environ["GOOGLE_API_KEY"] = api_key
 
 # ---------- Document source ----------
 st.sidebar.header("Document source")
@@ -71,7 +71,7 @@ if "doc_label" not in st.session_state or st.session_state.doc_label != doc_labe
     st.session_state.messages = []  # what we render in the UI
 
 if not api_key:
-    st.info("Enter your OpenAI API key in the sidebar to start chatting.")
+    st.info("Enter your Google AI Studio API key in the sidebar to start chatting.")
     st.stop()
 
 if not document_text:
@@ -111,11 +111,11 @@ Text:
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                model = ChatOpenAI()
+                model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
                 result = model.invoke(lc_history)
                 answer = result.content
             except Exception as e:
-                answer = f"Error calling OpenAI: {e}"
+                answer = f"Error calling Gemini: {e}"
             st.markdown(answer)
 
     st.session_state.messages.append({"role": "assistant", "content": answer})
