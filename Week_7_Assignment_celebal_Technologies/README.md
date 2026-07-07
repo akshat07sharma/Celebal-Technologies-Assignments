@@ -1,10 +1,13 @@
 # Document Question Answering System (RAG)
 
+## Live Demo
+🔗 [Try the app here](https://celebal-technologies-assignments-9tsamgr63ruuc74nods8hj.streamlit.app/)
 ## Overview
 
 This project is a simple Document Question Answering System built using LangChain and OpenAI.
 
 It loads custom PDF or Text documents and answers user questions only based on the content of those documents.
+
 
 ## Features
 
